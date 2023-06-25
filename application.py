@@ -3,15 +3,13 @@ from flask_cors import CORS,cross_origin
 import requests
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
-import logging
-logging.basicConfig(filename = "scraper.log",level=logging.INFO)
 
-application = Flask(__name__)
-app = application
+application = Flask(__name__) # initializing a flask app
+app=application
 
-@app.route("/",methods = ['GET'])
+@app.route('/',methods=['GET'])  # route to display the home page
 @cross_origin()
-def homepage():
+def homePage():
     return render_template("index.html")
 
 @app.route('/review',methods=['POST','GET']) # route to show the review comments in a web UI
@@ -47,7 +45,7 @@ def index():
 
                 except:
                     name = 'No Name'
-                    logging.info("name")
+
                 try:
                     #rating.encode(encoding='utf-8')
                     rating = commentbox.div.div.div.div.text
@@ -55,26 +53,26 @@ def index():
 
                 except:
                     rating = 'No Rating'
-                    logging.info("rating")
+
                 try:
                     #commentHead.encode(encoding='utf-8')
                     commentHead = commentbox.div.div.div.p.text
 
                 except:
-                    logging.info(commentHead)
+                    commentHead = 'No Comment Heading'
                 try:
                     comtag = commentbox.div.div.find_all('div', {'class': ''})
                     #custComment.encode(encoding='utf-8')
                     custComment = comtag[0].div.text
                 except Exception as e:
-                    logging.info(e)
+                    print("Exception while creating dictionary: ",e)
+
                 mydict = {"Product": searchString, "Name": name, "Rating": rating, "CommentHead": commentHead,
                           "Comment": custComment}
                 reviews.append(mydict)
-                logging.info("log my final result {}".format(reviews))
             return render_template('result.html', reviews=reviews[0:(len(reviews)-1)])
         except Exception as e:
-            logging.info(e)
+            print('The Exception message is: ',e)
             return 'something is wrong'
     # return render_template('results.html')
 
@@ -82,4 +80,5 @@ def index():
         return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0",port = 8000)
+    app.run(host='0.0.0.0', port=8000)
+	#app.run(debug=True)
