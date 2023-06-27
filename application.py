@@ -4,8 +4,8 @@ import requests
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen as uReq
 
-application = Flask(__name__) # initializing a flask app
-app=application
+app = Flask(__name__) # initializing a flask app
+
 
 @app.route('/',methods=['GET'])  # route to display the home page
 @cross_origin()
