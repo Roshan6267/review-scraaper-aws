@@ -6,14 +6,15 @@ from urllib.request import urlopen as uReq
 
 app = Flask(__name__) # initializing a flask app
 
-
-@app.route('/',methods=['GET'])  # route to display the home page
 @cross_origin()
+@app.route('/',methods=['GET'])  # route to display the home page
+
 def homePage():
     return render_template("index.html")
 
-@app.route('/review',methods=['POST','GET']) # route to show the review comments in a web UI
+
 @cross_origin()
+@app.route('/review',methods=['POST','GET']) # route to show the review comments in a web UI
 def index():
     if request.method == 'POST':
         try:
@@ -80,5 +81,6 @@ def index():
         return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8000)
+    app.run()
+    # app.run(host='0.0.0.0', port=8000)
 	#app.run(debug=True)
